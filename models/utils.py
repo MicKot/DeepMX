@@ -6,7 +6,7 @@ import os
 def convert_gluon_to_symbolic(
     model,
     remove_tmp_file=True,
-    fake_data_shape=[1, 3, 224, 224],
+    input_shape=[1, 3, 224, 224],
     model_name="tmp_exported_model",
 ):
     """convert_gluon_to_symbolic [summary]
@@ -17,8 +17,8 @@ def convert_gluon_to_symbolic(
         [description]
     remove_tmp_file : bool, optional
         remove file generated in process of conversion, by default True
-    fake_data_shape : list, optional
-        shape of data to be fed to your network, by default [1, 3, 224, 224]
+    input_shape : list, optional
+        shape of input data, by default [1, 3, 224, 224]
     
     Returns
     -------
@@ -27,7 +27,7 @@ def convert_gluon_to_symbolic(
     """
 
     model.hybridize()
-    fake_data = np.zeros(fake_data_shape)
+    fake_data = np.zeros(input_shape)
     fake_data = mx.nd.array(fake_data)
     model.forward(fake_data)
     model.export(model_name)
